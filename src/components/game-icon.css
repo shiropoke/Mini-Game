@@ -1,0 +1,16 @@
+.game-icon { display: grid; place-items: center; flex: 0 0 auto; width: 64px; height: 64px; border-radius: 22px 22px 22px 8px; background: var(--primary-container); color: var(--on-primary-container); overflow: hidden; }
+.game-icon--large { width: 96px; height: 96px; border-radius: 34px 34px 34px 11px; margin-bottom: var(--space-5); }
+.game-icon-text { font-weight: 900; line-height: 1; letter-spacing: -.08em; font-variant-numeric: tabular-nums; font-size: 1.3rem; }
+.game-icon--large .game-icon-text { font-size: 1.9rem; }
+.game-icon--2048 { background: var(--accent); color: var(--on-accent); }
+.game-icon--2048 .game-icon-text { font-size: 1.15rem; }
+.game-icon--large.game-icon--2048 .game-icon-text { font-size: 1.7rem; }
+.game-icon--mine svg { width: 66%; height: 66%; overflow: visible; }
+.game-icon--mine svg path { fill: none; stroke: currentColor; stroke-width: 3.5; stroke-linecap: round; }
+.game-icon--mine svg circle:not(.mine-shine) { fill: currentColor; }
+.game-icon--mine .mine-shine { fill: var(--primary-container); }
+.card-pair { position: relative; display: block; width: 68%; height: 68%; }
+.card-pair span { position: absolute; display: grid; place-items: center; width: 58%; height: 76%; border: 2px solid currentColor; border-radius: 8px; background: var(--surface-raised); font-size: .55rem; line-height: 1; }
+.card-pair span:first-child { left: 5%; top: 2%; transform: rotate(-10deg); }
+.card-pair span:last-child { right: 4%; bottom: 1%; transform: rotate(9deg); }
+.game-icon--large .card-pair span { border-width: 3px; border-radius: 11px; font-size: .8rem; }

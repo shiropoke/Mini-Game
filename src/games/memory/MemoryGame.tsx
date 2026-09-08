@@ -3,8 +3,9 @@ import type { GameComponentProps } from '../registry';
 import { formatTime } from '../shared/useGameSession';
 import { createDeck, memoryConfigs, memoryDifficulties, type MemoryCard, type MemoryDifficulty } from './logic';
 import './memory.css';
+import { GameIcon } from '../../components/GameIcon';
 
-export function MemoryGame({ session }: GameComponentProps) {
+export function MemoryGame({ session, game }: GameComponentProps) {
   const [difficulty, setDifficulty] = useState<MemoryDifficulty>('中級');
   const [deck, setDeck] = useState<MemoryCard[]>([]);
   const [openCards, setOpenCards] = useState<number[]>([]);
@@ -42,11 +43,10 @@ export function MemoryGame({ session }: GameComponentProps) {
 
   if (session.phase === 'setup') return (
     <section className="game-setup memory-setup" aria-labelledby="memory-setup-title">
-      <div className="setup-symbol" aria-hidden="true">✦?</div>
-      <p className="eyebrow">FIND THE PAIRS</p>
-      <h2 id="memory-setup-title">難易度を選ぶ</h2>
+      <GameIcon game={game} size="large" />
+      <div><p className="eyebrow">FIND THE PAIRS</p><h2 id="memory-setup-title">難易度を選ぶ</h2><p>カードの場所を覚えて、すべてのペアを見つけましょう。</p></div>
       <fieldset className="difficulty-options"><legend>難易度</legend>
-        {memoryDifficulties.map((level) => <label key={level}><input type="radio" name="memory-difficulty" checked={difficulty === level} onChange={() => setDifficulty(level)} /><span>{level}<small>{memoryConfigs[level].rows}×{memoryConfigs[level].cols}・{memoryConfigs[level].pairs}ペア</small></span></label>)}
+        {memoryDifficulties.map((level) => <label key={level}><input type="radio" name="memory-difficulty" checked={difficulty === level} onChange={() => setDifficulty(level)} /><span className="difficulty-control">{level}<small>{memoryConfigs[level].rows}×{memoryConfigs[level].cols}・{memoryConfigs[level].pairs}ペア</small></span></label>)}
       </fieldset>
       <button className="game-button primary" type="button" onClick={() => startGame()}>ゲームを始める</button>
     </section>

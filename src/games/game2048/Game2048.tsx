@@ -3,12 +3,13 @@ import type { GameComponentProps } from '../registry';
 import { formatTime } from '../shared/useGameSession';
 import { addRandomTile, createBoard2048, hasAvailableMove, moveBoard, type MoveDirection } from './logic';
 import './game2048.css';
+import { GameIcon } from '../../components/GameIcon';
 
 const arrows: Record<string, MoveDirection> = {
   ArrowUp: 'up', ArrowDown: 'down', ArrowLeft: 'left', ArrowRight: 'right',
 };
 
-export function Game2048({ session }: GameComponentProps) {
+export function Game2048({ session, game }: GameComponentProps) {
   const [board, setBoard] = useState<number[]>([]);
   const [score, setScore] = useState(0);
   const touchStart = useRef<{ x: number; y: number } | null>(null);
@@ -39,10 +40,8 @@ export function Game2048({ session }: GameComponentProps) {
 
   if (session.phase === 'setup') return (
     <section className="game-setup game2048-setup" aria-labelledby="game2048-setup-title">
-      <div className="setup-symbol" aria-hidden="true">2048</div>
-      <p className="eyebrow">JOIN THE TILES</p>
-      <h2 id="game2048-setup-title">2048をつくろう</h2>
-      <p>同じ数字を重ねて、2048のタイルを目指します。</p>
+      <GameIcon game={game} size="large" />
+      <div><p className="eyebrow">JOIN THE TILES</p><h2 id="game2048-setup-title">2048をつくろう</h2><p>同じ数字を重ねて、2048のタイルを目指します。</p></div>
       <button className="game-button primary" type="button" onClick={startGame}>ゲームを始める</button>
     </section>
   );

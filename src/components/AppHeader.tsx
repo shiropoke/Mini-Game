@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import { BrandIcon } from './BrandIcon';
 
 type Theme = 'system' | 'light' | 'dark';
 const storageKey = 'mini-game:theme';
@@ -23,7 +24,7 @@ export function AppHeader() {
   return (
     <header className="app-header">
       <a className="brand" href="#/" aria-label="Mini-Game ホーム">
-        <span className="brand-symbol" aria-hidden="true">✳</span>
+        <BrandIcon className="brand-symbol" />
         <span>Mini-Game<span className="brand-caption">小さな遊びの、ひろば。</span></span>
       </a>
       <label className="theme-control">

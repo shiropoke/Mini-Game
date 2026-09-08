@@ -1,5 +1,6 @@
 import { EmptyState } from '../components/EmptyState';
 import { GameCard } from '../components/GameCard';
+import { BrandIcon } from '../components/BrandIcon';
 import { games } from '../games/registry';
 
 export function HomePage() {
@@ -18,7 +19,7 @@ export function HomePage() {
         </div>
         <div className="play-art" aria-hidden="true">
           <div className="art-orbit" />
-          <div className="art-flower">✳</div>
+          <BrandIcon className="art-flower" />
           <div className="art-tile"><span className="tile-eye" /><span className="tile-eye" /><span className="tile-smile" /></div>
           <div className="art-disc">↗</div>
           <span className="art-spark">✦</span>
@@ -32,7 +33,7 @@ export function HomePage() {
         </div>
         {games.length === 0 ? <EmptyState /> : <div className="game-grid">{games.map((game) => <GameCard key={game.id} game={game} />)}</div>}
       </section>
-      <aside className="little-note"><span aria-hidden="true">✳</span><p>ひと休みも、いい時間に。<br /><span>あなたのペースで、気軽にどうぞ。</span></p></aside>
+      <aside className="little-note"><BrandIcon className="little-note-icon" /><p>ひと休みも、いい時間に。<br /><span>あなたのペースで、気軽にどうぞ。</span></p></aside>
     </>
   );
 }

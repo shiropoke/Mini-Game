@@ -2,9 +2,10 @@ import { useMemo, useState } from 'react';
 import type { GameComponentProps } from '../registry';
 import { createSudoku, hasConflict, sudokuDifficulties, type SudokuDifficulty } from './logic';
 import { formatTime } from '../shared/useGameSession';
+import { GameIcon } from '../../components/GameIcon';
 import './sudoku.css';
 
-export function SudokuGame({ session }: GameComponentProps) {
+export function SudokuGame({ session, game }: GameComponentProps) {
   const { phase, seconds } = session;
   const [difficulty, setDifficulty] = useState<SudokuDifficulty>('中級');
   const [hintLimit, setHintLimit] = useState(3);
@@ -103,9 +104,9 @@ export function SudokuGame({ session }: GameComponentProps) {
 
   if (phase === 'setup') return (
     <div className="game-setup">
-      <div className="setup-mark" aria-hidden="true">9×9</div>
+      <GameIcon game={game} size="large" />
       <div><p className="eyebrow">NEW PUZZLE</p><h2>遊び方を選ぶ</h2><p>すべての行・列・3×3ブロックに、1〜9をひとつずつ入れましょう。</p></div>
-      <label>難易度<select value={difficulty} onChange={(e) => setDifficulty(e.target.value as SudokuDifficulty)}>{sudokuDifficulties.map((value) => <option key={value}>{value}</option>)}</select></label>
+      <label>難易度<select className="difficulty-control" value={difficulty} onChange={(e) => setDifficulty(e.target.value as SudokuDifficulty)}>{sudokuDifficulties.map((value) => <option key={value}>{value}</option>)}</select></label>
       <label>ヒント数<select value={hintLimit} onChange={(e) => setHintLimit(Number(e.target.value))}>{[0, 1, 2, 3, 4, 5].map((value) => <option key={value} value={value}>{value}回</option>)}</select></label>
       <button className="game-button primary" onClick={startGame}>この設定で始める <span aria-hidden="true">→</span></button>
     </div>

@@ -2,6 +2,7 @@ import { useEffect, useRef, useState } from 'react';
 import type { GameDefinition } from '../games/registry';
 import { useGameSession } from '../games/shared/useGameSession';
 import { GameResult } from '../games/shared/GameResult';
+import { discardHomeScroll } from '../routing';
 
 function HomeConfirmDialog({ open, onCancel, onConfirm }: { open: boolean; onCancel: () => void; onConfirm: () => void }) {
   const ref = useRef<HTMLDialogElement>(null);
@@ -33,6 +34,10 @@ export function GameLayout({ game }: { game: GameDefinition }) {
   const [confirmingHome, setConfirmingHome] = useState(false);
 
   useEffect(() => {
+    if (phase !== 'setup') discardHomeScroll();
+  }, [phase]);
+
+  useEffect(() => {
     function guardHomeNavigation(event: MouseEvent) {
       const target = event.target;
       if (!['playing', 'ready', 'paused'].includes(phase) || !(target instanceof Element)) return;
@@ -49,6 +54,7 @@ export function GameLayout({ game }: { game: GameDefinition }) {
   function goHome() {
     setConfirmingHome(false);
     stop();
+    discardHomeScroll();
     window.location.hash = '#/';
   }
 
@@ -57,7 +63,7 @@ export function GameLayout({ game }: { game: GameDefinition }) {
       <a className="button tonal" href="#/">← ホームに戻る</a>
       <header className="game-heading"><p className="eyebrow">LET’S PLAY</p><h1>{game.title}</h1><p>{game.description}</p></header>
       <section className="game-stage" aria-label={`${game.title}のプレイエリア`}>
-        {phase === 'completed' ? <GameResult title={game.title} difficulty={session.difficulty} seconds={session.seconds} stats={session.stats} onReplay={session.reset} /> : <Game session={session} />}
+        {phase === 'completed' ? <GameResult title={game.title} difficulty={session.difficulty} seconds={session.seconds} stats={session.stats} onReplay={session.reset} /> : <Game session={session} game={game} />}
       </section>
       <HomeConfirmDialog open={confirmingHome} onCancel={() => { setConfirmingHome(false); resume(); }} onConfirm={goHome} />
     </>

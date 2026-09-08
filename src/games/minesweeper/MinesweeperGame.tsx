@@ -1,12 +1,13 @@
 import { useEffect, useRef, useState } from 'react';
 import type { GameComponentProps } from '../registry';
+import { GameIcon } from '../../components/GameIcon';
 import { formatTime } from '../shared/useGameSession';
 import { emptyMineBoard, isMinefieldCleared, mineConfigs, minesDifficulties, placeMines, revealCells, type MinesDifficulty } from './logic';
 import './minesweeper.css';
 
 type Mode = 'open' | 'flag';
 
-export function MinesweeperGame({ session }: GameComponentProps) {
+export function MinesweeperGame({ session, game }: GameComponentProps) {
   const { phase, seconds } = session;
   const [difficulty, setDifficulty] = useState<MinesDifficulty>('初級');
   const [board, setBoard] = useState(() => emptyMineBoard(mineConfigs.初級));
@@ -59,9 +60,9 @@ export function MinesweeperGame({ session }: GameComponentProps) {
   const flags = board.filter((cell) => cell.flagged).length;
   if (phase === 'setup') return (
     <div className="game-setup">
-      <div className="setup-mark mine-mark" aria-hidden="true">✦</div>
+      <GameIcon game={game} size="large" />
       <div><p className="eyebrow">NEW FIELD</p><h2>難易度を選ぶ</h2><p>地雷を避けて、すべての安全なマスを開きましょう。最初のマスと周囲は安全です。</p></div>
-      <label>難易度<select value={difficulty} onChange={(e) => setDifficulty(e.target.value as MinesDifficulty)}>{minesDifficulties.map((value) => <option key={value} value={value}>{value}（{mineConfigs[value].rows}×{mineConfigs[value].cols}・地雷{mineConfigs[value].mines}）</option>)}</select></label>
+      <label>難易度<select className="difficulty-control" value={difficulty} onChange={(e) => setDifficulty(e.target.value as MinesDifficulty)}>{minesDifficulties.map((value) => <option key={value} value={value}>{value}（{mineConfigs[value].rows}×{mineConfigs[value].cols}・地雷{mineConfigs[value].mines}）</option>)}</select></label>
       <button className="game-button primary" onClick={() => newBoard()}>この設定で始める <span aria-hidden="true">→</span></button>
     </div>
   );

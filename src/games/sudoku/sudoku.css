@@ -57,9 +57,9 @@
 .game-setup { display: grid; grid-template-columns: auto 1fr; gap: var(--space-5); align-items: center; max-width: 700px; margin-inline: auto; padding: clamp(24px, 5vw, 48px); border-radius: var(--shape-large); background: var(--surface-raised); box-shadow: var(--elevation-1); }
 .game-setup h2 { margin-block: var(--space-1) var(--space-2); font-size: var(--type-title); }
 .game-setup p:not(.eyebrow) { color: var(--text-muted); font-size: .88rem; }
-.setup-mark { width: 100px; aspect-ratio: 1; display: grid; place-items: center; border-radius: 34px 34px 34px 10px; background: var(--primary-container); color: var(--primary); font-size: 1.75rem; font-weight: 850; transform: rotate(-4deg); }
 .game-setup label { display: grid; gap: 6px; color: var(--text-muted); font-size: .75rem; font-weight: 700; }
 .game-setup select { width: 100%; min-height: 52px; padding: 0 var(--space-4); border: 1px solid var(--outline-variant); border-radius: var(--shape-small); background: var(--surface-container); color: var(--text); }
+.game-setup select.difficulty-control { min-height: 54px; }
 .game-button { min-height: 54px; border: 0; border-radius: var(--shape-full); padding: 10px var(--space-5); font: 750 .9rem var(--font-body); cursor: pointer; }
 .game-setup .game-button { grid-column: 2; }
 
@@ -74,6 +74,5 @@
   .number-pad button { min-height: 46px; border-radius: 12px; }
   .input-actions button { padding-inline: 4px; }
   .game-setup { grid-template-columns: 1fr; padding: var(--space-5); }
-  .setup-mark { width: 76px; }
   .game-setup .game-button { grid-column: 1; }
 }

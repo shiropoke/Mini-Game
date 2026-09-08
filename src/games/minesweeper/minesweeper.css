@@ -1,5 +1,4 @@
 .mines-game { --mine-cell: 34px; min-width: 0; }
-.mine-mark { background: var(--peach); color: #573320; border-radius: 50%; }
 .mines-toolbar { align-items: flex-start; }
 .mines-toolbar .game-stats span { min-width: 68px; }
 .mode-switch { display: flex; width: fit-content; padding: 4px; margin: 0 auto var(--space-4); border-radius: var(--shape-full); background: var(--surface-raised); box-shadow: var(--elevation-1); }
