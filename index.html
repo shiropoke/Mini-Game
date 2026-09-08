@@ -1,0 +1,21 @@
+<!doctype html>
+<html lang="ja">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="description" content="ちょっとひと息、ちょっと夢中。ブラウザで気軽に楽しむミニゲームの広場。" />
+    <link rel="icon" type="image/svg+xml" href="%BASE_URL%favicon.svg" />
+    <title>Mini-Game — ちょっとひと息、ちょっと夢中。</title>
+    <script>
+      // Apply an explicit preference before the first paint. Unset means OS default.
+      try {
+        const theme = localStorage.getItem('mini-game:theme');
+        if (theme === 'light' || theme === 'dark') document.documentElement.dataset.theme = theme;
+      } catch { /* Storage may be disabled. */ }
+    </script>
+  </head>
+  <body>
+    <div id="root"></div>
+    <script type="module" src="/src/main.tsx"></script>
+  </body>
+</html>
