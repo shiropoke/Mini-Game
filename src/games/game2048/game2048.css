@@ -1,0 +1,30 @@
+.game2048 { max-width: 620px; margin-inline: auto; }
+.game2048-setup .setup-symbol { width: 104px; height: 104px; display: grid; place-items: center; margin-bottom: var(--space-5); border-radius: 36px 36px 36px 12px; background: var(--accent); color: var(--on-accent); font-size: 1.6rem; font-weight: 900; letter-spacing: -.08em; transform: rotate(-4deg); }
+.board-help { margin: var(--space-4) 0 var(--space-3); color: var(--text-muted); font-size: .78rem; text-align: center; }
+.board2048 { display: grid; grid-template-columns: repeat(4, 1fr); gap: clamp(6px, 2vw, 12px); width: min(100%, 520px); margin-inline: auto; padding: clamp(8px, 2.5vw, 16px); border: 2px solid var(--outline-variant); border-radius: var(--shape-medium); background: color-mix(in srgb, var(--outline) 28%, var(--surface-container)); touch-action: none; user-select: none; }
+.tile2048 { aspect-ratio: 1; display: grid; place-items: center; min-width: 0; border-radius: clamp(10px, 3vw, 20px); background: var(--surface-raised); color: var(--text-muted); font-size: clamp(1.25rem, 7vw, 2.45rem); font-weight: 900; line-height: 1; box-shadow: inset 0 0 0 1px color-mix(in srgb, var(--outline-variant) 70%, transparent); transition: transform var(--motion-fast) var(--ease-expressive), background var(--motion-fast); }
+.tile-2 { background: color-mix(in srgb, var(--primary-container) 55%, var(--surface-raised)); color: var(--on-primary-container); }
+.tile-4 { background: var(--primary-container); color: var(--on-primary-container); }
+.tile-8 { background: color-mix(in srgb, var(--peach) 62%, var(--surface-raised)); color: #4c281a; }
+.tile-16 { background: var(--peach); color: #442014; }
+.tile-32 { background: #ed8b68; color: #32150e; }
+.tile-64 { background: #d9635c; color: #fff; }
+.tile-128 { background: color-mix(in srgb, var(--accent) 65%, var(--surface-raised)); color: var(--on-accent); font-size: clamp(1.05rem, 6vw, 2.05rem); }
+.tile-256 { background: var(--accent); color: var(--on-accent); font-size: clamp(1.05rem, 6vw, 2.05rem); }
+.tile-512 { background: #92bd58; color: #152709; font-size: clamp(1.05rem, 6vw, 2.05rem); }
+.tile-1024 { background: var(--primary); color: var(--on-primary); font-size: clamp(.9rem, 5.2vw, 1.75rem); }
+.tile-2048 { background: linear-gradient(135deg, var(--primary), #8f67e9); color: #fff; font-size: clamp(.9rem, 5.2vw, 1.75rem); box-shadow: 0 0 0 4px color-mix(in srgb, var(--accent) 40%, transparent); }
+.direction-pad { display: grid; grid-template-columns: repeat(4, minmax(52px, 70px)); justify-content: center; gap: var(--space-2); margin-top: var(--space-5); }
+.direction-pad button { min-height: 52px; border: 0; border-radius: var(--shape-small); background: var(--primary-container); color: var(--on-primary-container); font-size: 1.4rem; font-weight: 800; cursor: pointer; }
+.game-over-panel { max-width: 520px; margin-inline: auto; padding: clamp(28px, 7vw, 56px); text-align: center; border-radius: var(--shape-extra-large) var(--shape-extra-large) var(--shape-extra-large) 16px; background: var(--surface-raised); box-shadow: var(--elevation-2); }
+.game-over-symbol { width: 82px; height: 82px; display: grid; place-items: center; margin: 0 auto var(--space-4); border-radius: 30px 30px 30px 10px; background: var(--peach); color: #4c281a; font-size: 2.5rem; }
+.game-over-panel h2 { font-size: clamp(2rem, 8vw, 3.5rem); }
+.game-over-panel dl { margin: var(--space-5) 0; }
+.game-over-panel dl div { padding: var(--space-4); border-radius: var(--shape-medium); background: var(--surface-container); }
+.game-over-panel dt { color: var(--text-muted); font-size: .75rem; }
+.game-over-panel dd { margin: 0; font-size: 1.6rem; font-weight: 850; }
+.game-over-actions { display: grid; grid-template-columns: 1fr 1fr; gap: var(--space-3); }
+.game-over-actions :is(button, a) { min-height: 52px; display: grid; place-items: center; border: 0; border-radius: var(--shape-full); padding: 10px; background: var(--primary-container); color: var(--on-primary-container); font-weight: 750; cursor: pointer; }
+.game-over-actions button { background: var(--primary); color: var(--on-primary); }
+@media (max-width: 480px) { .game-over-actions { grid-template-columns: 1fr; } }
+@media (prefers-reduced-motion: reduce) { .tile2048 { transition: none; } }

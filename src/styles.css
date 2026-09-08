@@ -146,6 +146,14 @@
   .app-footer p { font-size: 0.7rem; }
   .skip-link { position: fixed; z-index: 10; top: -100px; left: 16px; padding: 12px 24px; border-radius: var(--shape-full); background: var(--primary); color: var(--on-primary); }
   .skip-link:focus { top: 16px; }
+  .home-confirm { width: min(430px, calc(100% - 32px)); max-width: none; margin: auto; padding: clamp(24px, 5vw, 36px); border: 0; border-radius: var(--shape-large) var(--shape-large) var(--shape-large) 12px; background: var(--surface-raised); color: var(--text); box-shadow: var(--elevation-2); }
+  .home-confirm::backdrop { background: #17121fcc; backdrop-filter: blur(3px); }
+  .home-confirm .confirm-symbol { width: 64px; height: 64px; display: grid; place-items: center; margin-bottom: var(--space-5); border-radius: 22px 22px 22px 8px; background: var(--primary-container); color: var(--primary); font-size: 2rem; }
+  .home-confirm h2 { font-size: 1.45rem; }
+  .home-confirm > p { margin-top: var(--space-2); color: var(--text-muted); font-size: .9rem; }
+  .confirm-actions { display: flex; justify-content: flex-end; gap: var(--space-2); margin-top: var(--space-6); }
+  .confirm-actions button { min-height: 48px; padding: 10px 20px; border: 0; border-radius: var(--shape-full); background: var(--surface-container); color: var(--text); font: 700 .85rem var(--font-body); cursor: pointer; }
+  .confirm-actions button.primary { background: var(--primary); color: var(--on-primary); }
   .game-heading { margin-block: var(--space-6); }
   .game-heading h1 { font-size: var(--type-display); margin-block: var(--space-2); }
   .game-heading p { color: var(--text-muted); }
@@ -202,6 +210,9 @@
     .app-footer { flex-wrap: wrap; gap: var(--space-2); }
     .app-footer p { font-size: 0.625rem; }
     .game-stage { padding: var(--space-4); }
+    .home-confirm { width: calc(100% - 32px); padding: max(var(--space-5), env(safe-area-inset-top)) max(var(--space-5), env(safe-area-inset-right)) max(var(--space-5), env(safe-area-inset-bottom)) max(var(--space-5), env(safe-area-inset-left)); }
+    .confirm-actions { display: grid; grid-template-columns: 1fr 1fr; }
+    .confirm-actions button { padding-inline: var(--space-3); }
   }
   @media (prefers-reduced-motion: reduce) {
     *, *::before, *::after { animation: none !important; transition: none !important; scroll-behavior: auto !important; }

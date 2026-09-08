@@ -1,0 +1,19 @@
+.memory-game { max-width: 920px; margin-inline: auto; }
+.memory-setup .setup-symbol { width: 96px; height: 96px; display: grid; place-items: center; margin-bottom: var(--space-5); border-radius: 34px 34px 34px 10px; background: var(--peach); color: #4c281a; font-size: 2rem; font-weight: 900; transform: rotate(-4deg); }
+.memory-board { --memory-gap: clamp(5px, 1.5vw, 12px); display: grid; grid-template-columns: repeat(var(--memory-cols), minmax(0, 1fr)); gap: var(--memory-gap); margin-top: var(--space-5); }
+.memory-card { min-width: 0; aspect-ratio: .78; padding: 0; border: 0; border-radius: clamp(9px, 2.5vw, 20px); background: transparent; perspective: 700px; cursor: pointer; -webkit-tap-highlight-color: transparent; }
+.memory-card-inner { position: relative; display: block; width: 100%; height: 100%; transform-style: preserve-3d; transition: transform var(--motion-medium) var(--ease-standard); }
+.memory-card.is-open .memory-card-inner { transform: rotateY(180deg); }
+.memory-card-back, .memory-card-face { position: absolute; inset: 0; display: grid; place-items: center; border-radius: inherit; backface-visibility: hidden; box-shadow: var(--elevation-1); }
+.memory-card-back { background: var(--primary); color: var(--on-primary); font-size: clamp(1rem, 5vw, 2rem); }
+.memory-card-face { transform: rotateY(180deg); background: var(--surface-raised); color: var(--text); border: 2px solid var(--outline-variant); font-size: clamp(1.25rem, 6vw, 2.8rem); font-weight: 850; }
+.memory-card.is-matched .memory-card-face { background: var(--accent); color: var(--on-accent); border-color: color-mix(in srgb, var(--on-accent) 35%, transparent); }
+.memory-card.is-matched .memory-card-face::after { content: '✓'; position: absolute; right: 8%; bottom: 5%; font-size: clamp(.6rem, 2vw, 1rem); }
+.memory-card:disabled { cursor: default; opacity: 1; }
+.memory-card:focus-visible { outline-offset: 4px; }
+@media (max-width: 520px) {
+  .memory-board { gap: 5px; }
+  .memory-card { border-radius: 9px; min-height: 48px; }
+  .memory-card-face { border-width: 1px; }
+}
+@media (prefers-reduced-motion: reduce) { .memory-card-inner { transition: none; } }
