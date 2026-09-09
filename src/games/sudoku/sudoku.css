@@ -75,7 +75,7 @@
   .game-setup { grid-template-columns: 1fr; padding: var(--space-5); }
   .game-setup .game-button { grid-column: 1; }
   .game-page.is-playing .sudoku-game { display: flex; flex-direction: column; }
-  .game-page.is-playing .sudoku-board { flex: 0 0 auto; width: min(100%, calc(100dvh - 318px)); margin-block: auto; }
+  .game-page.is-playing .sudoku-board { flex: 0 0 auto; width: min(100%, calc(100dvh - 326px - env(safe-area-inset-bottom, 0px))); margin-block: auto; }
   .game-page.is-playing .number-pad { flex: 0 0 auto; margin: 6px auto 4px; }
   .game-page.is-playing .number-pad button { min-height: 40px; }
   .game-page.is-playing .input-actions { flex: 0 0 auto; }

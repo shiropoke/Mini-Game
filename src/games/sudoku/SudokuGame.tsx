@@ -74,7 +74,7 @@ export function SudokuGame({ session, game }: GameComponentProps) {
     }
     const next = [...board];
     next[target] = value;
-    if (value !== 0 && value !== solution[target]) setMistakes((count) => count + 1);
+    if (value !== solution[target]) setMistakes((count) => count + 1);
     setBoard(next);
     setNotes((current) => removePeerNotes(current.map((cellNotes, index) => index === target ? [] : cellNotes), target, value));
     if (next.every((cell, index) => cell === solution[index])) {
@@ -120,7 +120,7 @@ export function SudokuGame({ session, game }: GameComponentProps) {
   return (
     <div className="sudoku-game">
       <div className="game-toolbar">
-        <div className="game-stats"><span><small>難易度</small>{difficulty}</span><span><small>時間</small>{formatTime(seconds)}</span><span><small>ヒント</small>{hints}</span><span><small>ミス</small>{mistakes}</span></div>
+        <div className="game-stats"><span><small>難易度</small>{difficulty}</span><span><small>時間</small>{formatTime(seconds)}</span><span><small>ヒント</small>{hints}</span><span key={mistakes} aria-live="polite"><small>ミス</small>{mistakes}</span></div>
         <div className="game-actions"><button onClick={restart}>リスタート</button><button onClick={() => { setMistakes(0); session.reset(); }}>新しいゲーム</button></div>
       </div>
       <div className="sudoku-board" role="grid" aria-label="ナンプレ盤面">
