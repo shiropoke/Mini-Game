@@ -24,7 +24,7 @@
   .game-page.is-playing .mode-switch { flex: 0 0 auto; margin-bottom: 4px; padding: 2px; }
   .game-page.is-playing .mode-switch button { min-width: 92px; min-height: 36px; padding-block: 3px; }
   .game-page.is-playing .mine-help { display: none; }
-  .game-page.is-playing .mine-scroll { flex: 1 1 auto; min-height: 0; overflow: auto; padding: 4px; }
-  .game-page.is-playing .mine-board { --mine-cell: clamp(18px, calc((100dvh - 352px) / var(--mine-rows)), 32px); }
+  .game-page.is-playing .mine-scroll { flex: 1 1 auto; min-height: 0; display: flex; align-items: center; justify-content: safe center; overflow: auto; padding: 4px; }
+  .game-page.is-playing .mine-board { --mine-cell: clamp(18px, calc((100dvh - 376px) / var(--mine-rows)), 32px); flex: 0 0 auto; }
   .game-page.is-playing .mine-cell { border-radius: 6px; font-size: .78rem; }
 }

@@ -16,6 +16,7 @@ export function MinesweeperGame({ session, game }: GameComponentProps) {
   const longPressed = useRef(false);
   const pointerStart = useRef<{ x: number; y: number } | null>(null);
   const pointerMoved = useRef(false);
+  const mineScroll = useRef<HTMLDivElement>(null);
   const config = mineConfigs[difficulty];
 
   useEffect(() => {
@@ -25,6 +26,15 @@ export function MinesweeperGame({ session, game }: GameComponentProps) {
       pointerStart.current = null;
     };
   }, [phase]);
+
+  useEffect(() => {
+    if (phase !== 'ready') return;
+    const frame = window.requestAnimationFrame(() => {
+      const viewport = mineScroll.current;
+      if (viewport) viewport.scrollLeft = Math.max(0, (viewport.scrollWidth - viewport.clientWidth) / 2);
+    });
+    return () => window.cancelAnimationFrame(frame);
+  }, [phase, difficulty]);
 
   function beginLongPress(event: React.PointerEvent, index: number) {
     if (event.pointerType === 'mouse') return;
@@ -106,7 +116,7 @@ export function MinesweeperGame({ session, game }: GameComponentProps) {
       <div className="mode-switch" aria-label="操作モード"><button className={mode === 'open' ? 'active' : ''} aria-pressed={mode === 'open'} onClick={() => setMode('open')}>◻ 開く</button><button className={mode === 'flag' ? 'active' : ''} aria-pressed={mode === 'flag'} onClick={() => setMode('flag')}>⚑ 旗</button></div>
       {phase === 'failed' && <div className="result-banner lost" role="status"><span aria-hidden="true">!</span><div><strong>ゲームオーバー</strong><p>{difficulty}・{formatTime(seconds)}</p></div></div>}
       <p className="mine-help">タップは選択中の操作・長押しまたは右クリックで旗</p>
-      <div className="mine-scroll" tabIndex={0} aria-label="盤面。大きな盤面は横にスクロールできます">
+      <div ref={mineScroll} className="mine-scroll" tabIndex={0} aria-label="盤面。大きな盤面は横にスクロールできます">
         <div className="mine-board" role="grid" aria-label={`${difficulty}のマインスイーパー盤面`} style={{ gridTemplateColumns: `repeat(${config.cols}, var(--mine-cell))`, '--mine-rows': config.rows } as React.CSSProperties}>
           {board.map((cell, index) => {
             const row = Math.floor(index / config.cols) + 1, col = index % config.cols + 1;
