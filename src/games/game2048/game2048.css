@@ -26,4 +26,11 @@
 .game-over-actions :is(button, a) { min-height: 52px; display: grid; place-items: center; border: 0; border-radius: var(--shape-full); padding: 10px; background: var(--primary-container); color: var(--on-primary-container); font-weight: 750; cursor: pointer; }
 .game-over-actions button { background: var(--primary); color: var(--on-primary); }
 @media (max-width: 480px) { .game-over-actions { grid-template-columns: 1fr; } }
+@media (max-width: 600px) {
+  .game-page.is-playing .game2048 { display: flex; flex-direction: column; }
+  .game-page.is-playing .board-help { display: none; }
+  .game-page.is-playing .board2048 { width: min(100%, calc(100dvh - 232px)); padding: 7px; gap: 6px; }
+  .game-page.is-playing .direction-pad { grid-template-columns: repeat(4, minmax(44px, 58px)); gap: 5px; margin-top: 6px; }
+  .game-page.is-playing .direction-pad button { min-height: 42px; }
+}
 @media (prefers-reduced-motion: reduce) { .tile2048 { transition: none; } }

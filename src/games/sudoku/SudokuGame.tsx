@@ -59,6 +59,11 @@ export function SudokuGame({ session, game }: GameComponentProps) {
 
   function enter(value: number, target = selected) {
     if (target === null || given[target] || phase !== 'playing') return;
+    if (value === 0) {
+      setBoard((current) => current.map((cell, index) => index === target ? 0 : cell));
+      setNotes((current) => current.map((cellNotes, index) => index === target ? [] : cellNotes));
+      return;
+    }
     if (value !== 0 && completedNumbers[value]) return;
     if (noteMode && value !== 0) {
       if (board[target] !== 0) return;
@@ -71,7 +76,7 @@ export function SudokuGame({ session, game }: GameComponentProps) {
     next[target] = value;
     if (value !== 0 && value !== solution[target]) setMistakes((count) => count + 1);
     setBoard(next);
-    setNotes((current) => value ? removePeerNotes(current.map((cellNotes, index) => index === target ? [] : cellNotes), target, value) : current);
+    setNotes((current) => removePeerNotes(current.map((cellNotes, index) => index === target ? [] : cellNotes), target, value));
     if (next.every((cell, index) => cell === solution[index])) {
       session.complete([{ label: 'ミス', value: `${mistakes}回` }]);
     }

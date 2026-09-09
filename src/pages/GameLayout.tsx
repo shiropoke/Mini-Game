@@ -32,6 +32,12 @@ export function GameLayout({ game }: { game: GameDefinition }) {
   const session = useGameSession();
   const { phase, pause, resume, stop } = session;
   const [confirmingHome, setConfirmingHome] = useState(false);
+  const isPlaying = ['playing', 'ready', 'paused'].includes(phase);
+
+  useEffect(() => {
+    document.documentElement.classList.toggle('game-playing', isPlaying);
+    return () => document.documentElement.classList.remove('game-playing');
+  }, [isPlaying]);
 
   useEffect(() => {
     if (phase !== 'setup') discardHomeScroll();
@@ -59,13 +65,13 @@ export function GameLayout({ game }: { game: GameDefinition }) {
   }
 
   return (
-    <>
+    <div className={`game-page${isPlaying ? ' is-playing' : ''}`}>
       <a className="button tonal" href="#/">← ホームに戻る</a>
       <header className="game-heading"><p className="eyebrow">LET’S PLAY</p><h1>{game.title}</h1><p>{game.description}</p></header>
       <section className="game-stage" aria-label={`${game.title}のプレイエリア`}>
         {phase === 'completed' ? <GameResult title={game.title} difficulty={session.difficulty} seconds={session.seconds} stats={session.stats} onReplay={session.reset} /> : <Game session={session} game={game} />}
       </section>
       <HomeConfirmDialog open={confirmingHome} onCancel={() => { setConfirmingHome(false); resume(); }} onConfirm={goHome} />
-    </>
+    </div>
   );
 }

@@ -62,7 +62,7 @@ export function MemoryGame({ session, game }: GameComponentProps) {
         </div>
         <div className="game-actions"><button className="game-button tonal" type="button" onClick={() => startGame()}>リスタート</button><button className="game-button tonal" type="button" onClick={session.reset}>難易度変更</button></div>
       </div>
-      <div className="memory-board" style={{ '--memory-cols': config.cols } as React.CSSProperties} aria-label={`${config.pairs}ペアのカード盤面`} aria-busy={locked}>
+      <div className="memory-board" style={{ '--memory-cols': config.cols, '--memory-rows': config.rows } as React.CSSProperties} aria-label={`${config.pairs}ペアのカード盤面`} aria-busy={locked}>
         {deck.map((card) => {
           const isMatched = matched.has(card.pair), isOpen = isMatched || openCards.includes(card.id);
           const state = isMatched ? '一致済み' : isOpen ? `表、${card.symbol}` : '裏';

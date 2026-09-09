@@ -16,5 +16,8 @@
   .memory-board { gap: 5px; }
   .memory-card { border-radius: 9px; min-height: 48px; }
   .memory-card-face { border-width: 1px; }
+  .game-page.is-playing .memory-game { display: flex; flex-direction: column; }
+  .game-page.is-playing .memory-board { width: min(100%, calc((100dvh - 210px) * .78)); max-height: calc(100dvh - 210px); margin: 2px auto 0; gap: 4px; }
+  .game-page.is-playing .memory-card { min-height: 0; }
 }
 @media (prefers-reduced-motion: reduce) { .memory-card-inner { transition: none; } }

@@ -14,12 +14,42 @@ export function MinesweeperGame({ session, game }: GameComponentProps) {
   const [mode, setMode] = useState<Mode>('open');
   const longPress = useRef<number | undefined>(undefined);
   const longPressed = useRef(false);
+  const pointerStart = useRef<{ x: number; y: number } | null>(null);
+  const pointerMoved = useRef(false);
   const config = mineConfigs[difficulty];
 
   useEffect(() => {
     // Cancel a pending touch when a modal pauses play or the game unmounts.
-    return () => window.clearTimeout(longPress.current);
+    return () => {
+      window.clearTimeout(longPress.current);
+      pointerStart.current = null;
+    };
   }, [phase]);
+
+  function beginLongPress(event: React.PointerEvent, index: number) {
+    if (event.pointerType === 'mouse') return;
+    window.clearTimeout(longPress.current);
+    longPressed.current = false;
+    pointerMoved.current = false;
+    pointerStart.current = { x: event.clientX, y: event.clientY };
+    longPress.current = window.setTimeout(() => {
+      if (pointerMoved.current) return;
+      longPressed.current = true;
+      toggleFlag(index);
+    }, 500);
+  }
+
+  function trackPointer(event: React.PointerEvent) {
+    const start = pointerStart.current;
+    if (!start || Math.hypot(event.clientX - start.x, event.clientY - start.y) < 8) return;
+    pointerMoved.current = true;
+    window.clearTimeout(longPress.current);
+  }
+
+  function endPointer() {
+    window.clearTimeout(longPress.current);
+    pointerStart.current = null;
+  }
 
   function newBoard(nextDifficulty = difficulty) {
     setDifficulty(nextDifficulty); setBoard(emptyMineBoard(mineConfigs[nextDifficulty]));
@@ -70,20 +100,20 @@ export function MinesweeperGame({ session, game }: GameComponentProps) {
   return (
     <div className="mines-game">
       <div className="game-toolbar mines-toolbar">
-        <div className="game-stats"><span><small>難易度</small>{difficulty}</span><span><small>時間</small>{formatTime(seconds)}</span><span><small>地雷</small>{config.mines}</span><span><small>旗</small>{flags}</span><span><small>残り目安</small>{config.mines - flags}</span></div>
+        <div className="game-stats"><span><small>難易度</small>{difficulty}</span><span><small>時間</small>{formatTime(seconds)}</span><span><small>残り地雷</small>{config.mines - flags}</span></div>
         <div className="game-actions"><button onClick={() => newBoard()}>リスタート</button><button onClick={session.reset}>新しいゲーム</button></div>
       </div>
       <div className="mode-switch" aria-label="操作モード"><button className={mode === 'open' ? 'active' : ''} aria-pressed={mode === 'open'} onClick={() => setMode('open')}>◻ 開く</button><button className={mode === 'flag' ? 'active' : ''} aria-pressed={mode === 'flag'} onClick={() => setMode('flag')}>⚑ 旗</button></div>
       {phase === 'failed' && <div className="result-banner lost" role="status"><span aria-hidden="true">!</span><div><strong>ゲームオーバー</strong><p>{difficulty}・{formatTime(seconds)}</p></div></div>}
       <p className="mine-help">タップは選択中の操作・長押しまたは右クリックで旗</p>
       <div className="mine-scroll" tabIndex={0} aria-label="盤面。大きな盤面は横にスクロールできます">
-        <div className="mine-board" role="grid" aria-label={`${difficulty}のマインスイーパー盤面`} style={{ gridTemplateColumns: `repeat(${config.cols}, var(--mine-cell))` }}>
+        <div className="mine-board" role="grid" aria-label={`${difficulty}のマインスイーパー盤面`} style={{ gridTemplateColumns: `repeat(${config.cols}, var(--mine-cell))`, '--mine-rows': config.rows } as React.CSSProperties}>
           {board.map((cell, index) => {
             const row = Math.floor(index / config.cols) + 1, col = index % config.cols + 1;
             const wrongFlag = phase === 'failed' && cell.flagged && !cell.mine;
             const display = wrongFlag ? '×' : cell.flagged ? '⚑' : cell.revealed && cell.mine ? '●' : cell.revealed && cell.adjacent ? cell.adjacent : '';
             const state = wrongFlag ? '誤った旗' : cell.flagged ? '旗' : cell.revealed && cell.mine ? '地雷' : cell.revealed ? cell.adjacent ? `周囲の地雷${cell.adjacent}` : '空白、開封済み' : '未開封';
-            return <button key={index} role="gridcell" className={`mine-cell ${cell.revealed ? 'revealed' : ''} ${cell.flagged ? 'flagged' : ''} ${cell.mine && cell.revealed ? 'mine' : ''} ${wrongFlag ? 'wrong' : ''} n${cell.adjacent}`} aria-label={`${row}行${col}列、${state}`} onClick={() => { if (longPressed.current) { longPressed.current = false; return; } activate(index); }} onContextMenu={(e) => { e.preventDefault(); toggleFlag(index); }} onPointerDown={(e) => { if (e.pointerType === 'mouse') return; longPressed.current = false; longPress.current = window.setTimeout(() => { longPressed.current = true; toggleFlag(index); }, 500); }} onPointerUp={() => window.clearTimeout(longPress.current)} onPointerCancel={() => window.clearTimeout(longPress.current)} onPointerLeave={() => window.clearTimeout(longPress.current)} onKeyDown={(e) => handleKey(e, index)} disabled={phase === 'failed' || phase === 'paused'}>{display}</button>;
+            return <button key={index} role="gridcell" className={`mine-cell ${cell.revealed ? 'revealed' : ''} ${cell.flagged ? 'flagged' : ''} ${cell.mine && cell.revealed ? 'mine' : ''} ${wrongFlag ? 'wrong' : ''} n${cell.adjacent}`} aria-label={`${row}行${col}列、${state}`} onClick={() => { if (longPressed.current || pointerMoved.current) { longPressed.current = false; pointerMoved.current = false; return; } activate(index); }} onContextMenu={(e) => { e.preventDefault(); toggleFlag(index); }} onPointerDown={(e) => beginLongPress(e, index)} onPointerMove={trackPointer} onPointerUp={endPointer} onPointerCancel={endPointer} onPointerLeave={endPointer} onKeyDown={(e) => handleKey(e, index)} disabled={phase === 'failed' || phase === 'paused'}>{display}</button>;
           })}
         </div>
       </div>
